@@ -1,8 +1,6 @@
 (ns meetup-demo.ipfs.core
   (:require [cljsjs.ipfs]))
 
-(def ipfs js/Ipfs)
+(def node (new js/Ipfs (clj->js {:repo "amsterdam-clojure-meetup-ipfs"})))
 
-(defn create-ipfs [account]
-  (new ipfs (clj->js {:repo         (str "amsterdam-clojure-meetup-ipfs/" account)
-                      :EXPERIMENTAL {:pubsub true}})))
+(.log js/console node)

@@ -4,10 +4,11 @@
             [meetup-demo.scenes.dashboard :as dashboard]
             [meetup-demo.scenes.welcome :as welcome]
             [meetup-demo.events.core]
-            [meetup-demo.subs.core]))
+            [meetup-demo.subs.core]
+            [meetup-demo.ipfs.core]))
 
 (defn root-scene []
-  (let [account (rf/subscribe [:get-account])]
+  (let [account (rf/subscribe [:account])]
     (fn []
       (if @account
         [dashboard/scene-view]

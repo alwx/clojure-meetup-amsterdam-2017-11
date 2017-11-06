@@ -1,9 +1,12 @@
 (ns meetup-demo.scenes.dashboard
-  (:require [reagent.core :as r]
+  (:require [clojure.string :as str]
+            [reagent.core :as r]
             [re-frame.core :as rf]))
 
 (defn scene-view []
-  (let [account (rf/subscribe [:get-account])]
+  (let [account (rf/subscribe [:account])
+        messages (rf/subscribe [:messages/all])
+        new-message-text (rf/subscribe [:new-message/text])]
     (fn []
       [:div
        [:div.navbar
@@ -15,10 +18,17 @@
        [:div.container
         [:div.dashboard
          [:div.content
-          #_[:div.item
-           "Message list is here"]]
+          (for [{:keys [text author-address message-key]} (reverse @messages)]
+            ^{:key message-key}
+            [:div.message
+             [:div.text text]
+             [:div.user "Posted by " (or author-address "you")]])]
          [:div.toolbar
-          [:input.u-full-width {:on-change   #(rf/dispatch [:new-message/set-text (-> % .-target .-value)])
-                                :placeholder "Type your message here"}]
-          [:button {:on-click #(rf/dispatch [:new-message/send])
-                    :value "Send"}]]]]])))
+          [:input
+           {:on-change   #(rf/dispatch [:new-message/set-text (-> % .-target .-value)])
+            :value       @new-message-text
+            :placeholder "Type your message here"}]
+          (when-not (str/blank? @new-message-text)
+            [:button.button-primary
+             {:on-click #(rf/dispatch [:new-message/send])}
+             "Send"])]]]])))

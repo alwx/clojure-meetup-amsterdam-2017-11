@@ -2,14 +2,14 @@ pragma solidity ^0.4.6;
 
 contract SimpleChat2 {
 
-    struct ChatMessage {
+    struct Message {
     address authorAddress;
     string text;
     string imageHash;
     uint date;
     }
 
-    ChatMessage[] public messages;
+    Message[] public messages;
 
     event onMessageAdded(address authorAddress, string text, string imageHash, uint date, uint messageKey);
 
