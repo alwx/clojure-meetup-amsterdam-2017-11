@@ -22,15 +22,15 @@
    [:div.text text]
    [:div.user "Posted by " (or author-address "you")]])
 
-(defn ipfs-message-view [{:keys [text author-address image-hash]}]
-  (let [ipfs-content (rf/subscribe [:ipfs-content/content image-hash])]
+(defn ipfs-message-view [{:keys [text author-address ipfs-hash]}]
+  (let [ipfs-content (rf/subscribe [:ipfs-content/content ipfs-hash])]
     (fn []
       [:div.message
        [:div.text (or @ipfs-content "...")]
        [:div.user "Posted by " (or author-address "you")]])))
 
-(defn message-view [{:keys [image-hash] :as message}]
-  (if (str/blank? image-hash)
+(defn message-view [{:keys [ipfs-hash] :as message}]
+  (if (str/blank? ipfs-hash)
     [simple-message-view message]
     [ipfs-message-view message]))
 

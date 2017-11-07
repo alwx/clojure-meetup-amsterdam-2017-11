@@ -19,9 +19,9 @@
 
 (rf/reg-event-fx
   :messages/on-message-loaded
-  (fn [{:keys [db]} [_ {:keys [image-hash] :as message}]]
+  (fn [{:keys [db]} [_ {:keys [ipfs-hash] :as message}]]
     (cond->
       {:db (update db :messages conj message)}
 
-      (not (str/blank? image-hash))
-      (assoc :dispatch-n [[:ipfs/load image-hash]]))))
+      (not (str/blank? ipfs-hash))
+      (assoc :dispatch-n [[:ipfs/load ipfs-hash]]))))
