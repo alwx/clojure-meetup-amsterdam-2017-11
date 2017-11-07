@@ -1,5 +1,6 @@
 (ns meetup-demo.events.messages
-  (:require [madvas.re-frame.web3-fx]
+  (:require [clojure.string :as str]
+            [madvas.re-frame.web3-fx]
             [re-frame.core :as rf]))
 
 (rf/reg-event-fx
@@ -16,7 +17,11 @@
                     :on-success [:messages/on-message-loaded]
                     :on-error [:log-error]}]}})))
 
-(rf/reg-event-db
+(rf/reg-event-fx
   :messages/on-message-loaded
-  (fn [db [_ message]]
-    (update db :messages conj message)))
+  (fn [{:keys [db]} [_ {:keys [image-hash] :as message}]]
+    (cond->
+      {:db (update db :messages conj message)}
+
+      (not (str/blank? image-hash))
+      (assoc :dispatch-n [[:ipfs/load image-hash]]))))

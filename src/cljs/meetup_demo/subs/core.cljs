@@ -15,3 +15,8 @@
   :new-message/text
   (fn [db]
     (get-in db [:new-message :text])))
+
+(rf/reg-sub
+  :ipfs-content/content
+  (fn [db [_ hash]]
+    (get-in db [:ipfs-content hash])))

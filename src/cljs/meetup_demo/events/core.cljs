@@ -2,9 +2,9 @@
   (:require [cljs-web3.eth :as web3-eth]
             [re-frame.core :as rf]
             [meetup-demo.db :as db]
-            [meetup-demo.ipfs.core :as ipfs]
             meetup-demo.events.new-message
-            meetup-demo.events.messages))
+            meetup-demo.events.messages
+            meetup-demo.events.ipfs))
 
 (rf/reg-event-fx
   :log-error
