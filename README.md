@@ -1,5 +1,4 @@
-# spaces
-
+# Demo application for Amsterdam Clojure Meetup
 
 ## Prerequisites
 
